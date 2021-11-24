@@ -1,6 +1,8 @@
 stages:
   - build
   - test
+  - quality
+
 build:
   stage: build
   image: openjdk:12-alpine
@@ -31,3 +33,14 @@ unit test:
       - build/reports/tests
     reports:
       junit: build/test-results/tests/*.xml
+  
+PMDTest:
+  stage: quality
+  image: openjdk:12-alpine
+  script:
+    - ./gradlew pmdMain pmdTest
+  artifacts:
+    when: always
+    paths:
+      - build/reports/pmd
+
