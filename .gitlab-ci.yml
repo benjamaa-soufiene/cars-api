@@ -4,6 +4,7 @@ stages:
   - quality
   - package
   - deploy staging
+  - deploy production
 
 build:
   stage: build
@@ -72,3 +73,24 @@ staging:
   environment:
     name: staging
     url: http://$PLAYWD-5000.direct.labs.play-with-docker.com 
+
+production:
+  stage: deploy production
+  image: docker:dind
+  services:
+  - docker:dind
+  variables:
+    PLAYWD: ip172-18-0-39-c6f4c5fnjsv000bg319g
+  script:
+  - apk add --no-cache --quiet py-pip
+  - pip install --quiet docker-compose~=1.23.0
+  - export DOCKER_HOST=tcp://$PLAYWD.direct.labs.play-with-docker.com:2375
+  - docker-compose down
+  - docker-compose up -d
+  when: manual
+  allow_failure: false
+  environment:
+    name: production
+    url: http://$PLAYWD-5000.direct.labs.play-with-docker.com
+
+  
