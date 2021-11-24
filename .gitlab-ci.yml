@@ -20,3 +20,14 @@ smoke test:
     - sleep 30
     - curl http://localhost:5000/actuator/health | grep "UP"
 
+unit test:
+  stage: test
+  image: openjdk:12-alpine
+  script:
+    - ./gradlew test
+  artifacts:
+    when: always
+    paths:
+      - build/reports/tests
+    reports:
+      junit: build/test-results/tests/*.xml
