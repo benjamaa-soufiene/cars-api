@@ -14,6 +14,9 @@ build:
   artifacts:
     paths:
       - ./build/libs/
+  only:
+    - master
+    - merge_requests
 
 smoke test:
   stage: test
@@ -24,6 +27,9 @@ smoke test:
     - java -jar ./build/libs/cars-api.jar &
     - sleep 30
     - curl http://localhost:5000/actuator/health | grep "UP"
+  only:
+    - master
+    - merge_requests
 
 .unit test:
   stage: test
@@ -36,7 +42,9 @@ smoke test:
       - build/reports/tests
     reports:
       junit: build/test-results/tests/*.xml
-  
+  only:
+    - master
+    - merge_requests  
 PMDTest:
   stage: quality
   image: openjdk:12-alpine
@@ -46,7 +54,9 @@ PMDTest:
     when: always
     paths:
       - build/reports/pmd
-
+  only:
+    - master
+    - merge_requests
 release:
   stage: package
   image: docker:dind
@@ -56,6 +66,9 @@ release:
   - docker build -t $CI_REGISTRY_IMAGE .
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   - docker push $CI_REGISTRY_IMAGE
+  only:
+    - master
+    - merge_requests
 
 staging:
   stage: deploy staging
@@ -73,6 +86,8 @@ staging:
   environment:
     name: staging
     url: http://$PLAYWD-5000.direct.labs.play-with-docker.com 
+  only:
+    - master
 
 production:
   stage: deploy production
@@ -92,5 +107,8 @@ production:
   environment:
     name: production
     url: http://$PLAYWD-5000.direct.labs.play-with-docker.com
+  only:
+    - master
+
 
   
