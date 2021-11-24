@@ -1,0 +1,8 @@
+version: '2'
+services:
+  customers-service:
+    image: registry.gitlab.com/bjsoufiene/cars-api:latest
+    container_name: cars-api
+    mem_limit: 512M
+    ports:
+    - 5000:5000
