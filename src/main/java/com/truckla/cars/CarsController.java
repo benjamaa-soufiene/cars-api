@@ -16,7 +16,6 @@ public class CarsController {
 
     @GetMapping
     public List<Car> getCars() {
-        int i = 5;
         return repository.findAll();
     }
 
