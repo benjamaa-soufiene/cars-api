@@ -22,7 +22,7 @@ smoke test:
     - sleep 30
     - curl http://localhost:5000/actuator/health | grep "UP"
 
-unit test:
+.unit test:
   stage: test
   image: openjdk:12-alpine
   script:
