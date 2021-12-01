@@ -16,6 +16,7 @@
             <property name="prefix" value="" />
         </properties>
     </rule>
+    <rule ref="category/java/bestpractices.xml/UnusedLocalVariable" />
 
 
 </ruleset>
