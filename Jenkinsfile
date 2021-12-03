@@ -7,5 +7,17 @@ pipeline {
       }
     }
 
+    stage('Build') {
+      agent {
+        docker {
+          image 'openjdk:12-alpine'
+        }
+
+      }
+      steps {
+        sh './gradlew build'
+      }
+    }
+
   }
 }
