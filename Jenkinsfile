@@ -19,5 +19,17 @@ pipeline {
       }
     }
 
+    stage('Unit test') {
+      agent {
+        docker {
+          image 'openjdk:12-alpine'
+        }
+
+      }
+      steps {
+        sh ' ./gradlew test'
+      }
+    }
+
   }
 }
